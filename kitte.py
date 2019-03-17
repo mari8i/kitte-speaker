@@ -1,4 +1,5 @@
 import os.path
+import os
 
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
@@ -16,7 +17,11 @@ class Kitte(Resource):
 
     def get(self, name):
         if not name:
-            return "No file specified", 400
+            files = [os.path.splitext(f)[0]
+                     for f in os.listdir(Kitte.FILES_DIR):
+                     if f.endswith(".mp3")]
+                
+            return files, 200
     
         path = os.path.join(Kitte.FILES_DIR, name + ".mp3")
         print(path)
