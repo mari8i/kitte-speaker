@@ -15,10 +15,10 @@ class Kitte(Resource):
     FILES_DIR = "/var/www/kitte/media"
     PLAYER = "/usr/bin/play"
 
-    def get(self, name):
+    def get(self, name=None):
         if not name:
             files = [os.path.splitext(f)[0]
-                     for f in os.listdir(Kitte.FILES_DIR):
+                     for f in os.listdir(Kitte.FILES_DIR)
                      if f.endswith(".mp3")]
                 
             return files, 200
@@ -55,7 +55,7 @@ class Kitte(Resource):
 
 app = Flask(__name__)
 api = Api(app)
-api.add_resource(Kitte, "/kitte/<string:name>")
+api.add_resource(Kitte, "/kitte/<string:name>", "/kitte/")
 
 if __name__ == '__main__':
     app.run(debug=True)
